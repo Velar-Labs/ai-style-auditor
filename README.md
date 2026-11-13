@@ -6,6 +6,11 @@ CLI em Node.js, sem dependências, para auditar marcas de estilo típicas de tex
 
 > **Importante:** a ferramenta estima *sinais de estilo* (jargão, repetição, uniformidade). Ela não identifica autoria e nenhum detector de IA é confiável. Use para revisar seus próprios textos e respeite as regras da sua instituição.
 
+## Download
+
+- **Windows x64:** baixe o [executável na última Release](https://github.com/Velar-Labs/ai-style-auditor/releases/latest/download/ai-style-auditor.exe) — não precisa de Node.js.
+- **Código-fonte:** `git clone https://github.com/Velar-Labs/ai-style-auditor.git`
+
 ## O que faz
 
 - **Analisa** o texto e atribui uma pontuação de 0 a 100, com a lista de sinais encontrados e exemplos.

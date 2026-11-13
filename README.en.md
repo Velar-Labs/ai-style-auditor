@@ -6,6 +6,11 @@ A dependency-free Node.js CLI that audits stylistic markers commonly found in AI
 
 > **Important:** this tool estimates *style signals* (jargon, repetition, uniformity). It does not identify authorship, and no AI detector is reliable. Use it to revise your own writing and follow your institution's rules.
 
+## Download
+
+- **Windows x64:** download the [executable from the latest release](https://github.com/Velar-Labs/ai-style-auditor/releases/latest/download/ai-style-auditor.exe) — Node.js is not required.
+- **Source code:** `git clone https://github.com/Velar-Labs/ai-style-auditor.git`
+
 ## What it does
 
 - **Analyzes** the text and assigns a 0–100 score, listing each detected signal with examples.
