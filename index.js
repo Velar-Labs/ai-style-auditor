@@ -53,12 +53,13 @@ function printAnalysis(analysis) {
 }
 
 function printHelp() {
+  const program = process.argv[1] && process.argv[1].toLowerCase().endsWith('.exe') ? 'ai-style-auditor' : 'node index.js';
   console.log(`${bold('Detector e reescritor de texto com marcas de IA')}
 
 ${bold('Uso:')}
-  node index.js detect <arquivo|->          Analisa o texto e mostra os sinais
-  node index.js rewrite <arquivo|-> [...]   Reescreve e mostra antes/depois
-  node index.js <arquivo> [...]             Atalho para rewrite
+  ${program} detect <arquivo|->          Analisa o texto e mostra os sinais
+  ${program} rewrite <arquivo|-> [...]   Reescreve e mostra antes/depois
+  ${program} <arquivo> [...]             Atalho para rewrite
 
 ${bold('Opções:')}
   -o, --out <arquivo>   Salva o texto reescrito no arquivo
@@ -67,9 +68,9 @@ ${bold('Opções:')}
   -h, --help            Mostra esta ajuda
 
 ${bold('Exemplos:')}
-  node index.js detect exemplos/ia-pt.txt
-  node index.js rewrite exemplos/ia-pt.txt --out saida.txt
-  cat texto.txt | node index.js rewrite -
+  ${program} detect exemplos/ia-pt.txt
+  ${program} rewrite exemplos/ia-pt.txt --out saida.txt
+  cat texto.txt | ${program} rewrite -
 
 ${dim('A reescrita é rule-based: revise o resultado, principalmente termos técnicos.')}`);
 }
