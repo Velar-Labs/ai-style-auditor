@@ -1,0 +1,8 @@
+node_modules/
+detector-ia/
+*.zip
+saida*.txt
+publicar.js
+publicar.cmd
+.DS_Store
+Thumbs.db

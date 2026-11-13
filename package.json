@@ -1,0 +1,15 @@
+{
+  "name": "ai-style-auditor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CLI heurística para auditar sinais de estilo de IA e reescrever textos em português e inglês",
+  "bin": {
+    "ai-style-auditor": "./index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
