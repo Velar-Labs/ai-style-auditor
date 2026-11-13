@@ -43,6 +43,11 @@ test('reformula "não é apenas X, é Y"', () => {
   assert.match(result.text, /é técnica e também cultural/);
 });
 
+test('remove "mas também" redundante', () => {
+  const result = rewrite('O plano ajuda muito, mas também pode falhar.');
+  assert.match(result.text, /mas pode falhar/);
+});
+
 test('mantém concordância ao trocar adjetivos', () => {
   const result = rewrite('As soluções são abrangentes e robustas.');
   assert.match(result.text, /gerais e confiáveis/);

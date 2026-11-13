@@ -260,9 +260,19 @@ const CONTRACTIONS = [
   ['they have', 'they\'ve'], ['you have', 'you\'ve'], ['let us', 'let\'s'],
 ];
 
-const NOT_JUST_DETECT = {
-  pt: /não (?:é|são) (?:apenas|somente|só)\b|não (?:apenas|somente)\b/gi,
-  en: /\b(?:it'?s|it is|isn'?t|is not) (?:just|only)\b|\bnot (?:just|only)\b/gi,
+const CONTRAST_FORMULA = {
+  pt: /(?:não|nem)\s+(?:é|são|foi|foram)\s+(?:(?:apenas|somente|só)\s+)?[^,.;!?]{1,50},\s*(?:é|são|foi|foram|nem|mas)\s+[^,.;!?]{1,60}|\bnão\s+(?:apenas|somente|só)\b/gi,
+  en: /\b(?:is|are|was|were)\s+not\s+(?:(?:just|only)\s+)?[^,.;!?]{1,50},\s*(?:it'?s|it is|they'?re|they are|but|nor)\s+[^,.;!?]{1,60}|\b(?:it'?s|it is|isn'?t|is not)\s+(?:just|only)\b|\bnot\s+(?:just|only)\b/gi,
+};
+
+const NEGATION_WORDS = {
+  pt: /\b(?:não|nunca|jamais|nem|nenhum|nenhuma|nenhuns|nenhumas|ninguém|nada)\b/gi,
+  en: /\b(?:not|never|no|none|nobody|nothing|neither|nor)\b|\b\w+n't\b/gi,
+};
+
+const APHORISM_OPENERS = {
+  pt: /^(?:o segredo|a verdade|a questão|o ponto|a chave|o truque|a lição|o desafio|o futuro)\s+(?:não\s+)?(?:é|são|está|estão)(?=[\s,.;:!?]|$)/i,
+  en: /^(?:the secret|the truth|the key|the point|the trick|the lesson|the challenge)\s+(?:is|isn'?t|are|aren'?t)(?=[\s,.;:!?]|$)/i,
 };
 
 const LEXICON = { pt: PT_LEXICON, en: EN_LEXICON };
@@ -281,5 +291,7 @@ module.exports = {
   ALWAYS_REPLACE,
   REWRITE,
   CONTRACTIONS,
-  NOT_JUST_DETECT,
+  CONTRAST_FORMULA,
+  NEGATION_WORDS,
+  APHORISM_OPENERS,
 };

@@ -148,6 +148,15 @@ function fixNotJust(sentence, lang, bump) {
   return result;
 }
 
+function simplifyBalanced(sentence, lang, bump) {
+  const from = lang === 'pt' ? 'mas também' : 'but also';
+  const to = lang === 'pt' ? 'mas' : 'but';
+  const replaced = swap(sentence, from, to);
+  if (!replaced.count) return sentence;
+  bump('formulas', 'intensificadores removidos ("mas também" → "mas")');
+  return replaced.text;
+}
+
 function applyRewrites(sentence, data, noteSwap) {
   let result = sentence;
   for (const [from, to] of data.phrases) {
@@ -267,6 +276,7 @@ function rewriteBody(body, lang, data, state, bump, noteSwap) {
     current = dropFiller(current, lang, bump);
     current = varyConnective(current, lang, state, bump);
     current = fixNotJust(current, lang, bump);
+    current = simplifyBalanced(current, lang, bump);
     current = applyRewrites(current, data, noteSwap);
     current = replaceDashes(current, bump);
     current = replaceSemicolons(current, bump);

@@ -760,9 +760,9 @@
     return wrap;
   }
 
-  function signalList(data) {
+  function signalList(data, title) {
     var section = el('div', 'signals-block');
-    section.appendChild(el('h3', 'block-title', 'Sinais detectados'));
+    section.appendChild(el('h3', 'block-title', title || 'Sinais detectados'));
 
     if (!data.signals.length) {
       section.appendChild(el('p', 'meta', 'Nenhum sinal relevante. O texto já soa humano para a heurística.'));
@@ -845,7 +845,10 @@
     section.appendChild(el('h3', 'block-title', 'O que mudou'));
 
     if (!data.edits.length) {
-      section.appendChild(el('p', 'meta', 'Nenhuma troca automática foi necessária.'));
+      var note = data.before.signals.length
+        ? 'Nenhuma troca automática se aplicou. Os sinais acima pedem revisão manual: a regra não reescreve fórmulas e listas sem risco de mudar o sentido.'
+        : 'Nenhuma troca automática foi necessária.';
+      section.appendChild(el('p', 'meta', note));
     } else {
       var list = el('ul', 'edits');
       data.edits.forEach(function (edit) {
@@ -921,6 +924,10 @@
     result.appendChild(el('p', 'meta',
       languageName(data.after.lang) + ' · ' + data.after.wordCount + ' palavras · ' +
       data.after.sentenceCount + ' frases'));
+
+    if (data.before.signals.length) {
+      result.appendChild(signalList(data.before, 'Sinais que puxaram a nota'));
+    }
 
     result.appendChild(editsBlock(data));
 

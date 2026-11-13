@@ -41,3 +41,23 @@ test('texto vazio não quebra', () => {
   assert.strictEqual(result.score, 0);
   assert.deepStrictEqual(result.signals, []);
 });
+
+test('pega marcas de IA sem jargão: contraste, tríades e negações', () => {
+  const text = 'A inteligência artificial já não é futuro, é presente. Ela escreve, desenha, traduz, programa e conversa como se entendesse tudo. Mas por trás de cada resposta existe matemática, dados e milhões de exemplos aprendidos por máquinas. A IA não sonha, não sente saudade e não entende o mundo como nós. Ela prevê palavras, calcula probabilidades e imita padrões. Por isso, pode ajudar muito, mas também pode errar com confiança. O segredo não é temer a tecnologia, nem idolatrá-la. É usá-la com curiosidade, senso crítico e humanidade, lembrando que a criatividade ainda nasce de pessoas que perguntam, erram, imaginam e insistem.';
+  const result = analyze(text);
+  assert.strictEqual(result.lang, 'pt');
+  assert.ok(result.score >= 50, `pontuação inesperadamente baixa: ${result.score}`);
+  const ids = result.signals.map((signal) => signal.id);
+  assert.ok(ids.includes('contrast-formula'));
+  assert.ok(ids.includes('list-triads'));
+  assert.ok(ids.includes('negation-strings'));
+  assert.ok(ids.includes('aphorisms'));
+});
+
+test('pega contraste e tríade em inglês', () => {
+  const result = analyze('This change is not just technical, it is cultural. Teams plan, build, test and ship faster. The secret is not working more, it is working better.');
+  assert.strictEqual(result.lang, 'en');
+  const ids = result.signals.map((signal) => signal.id);
+  assert.ok(ids.includes('contrast-formula'));
+  assert.ok(ids.includes('list-triads'));
+});

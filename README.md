@@ -4,7 +4,7 @@
 
 CLI em Node.js, sem dependências, para auditar marcas de estilo típicas de textos gerados por IA e reescrever o texto com um tom mais natural. Funciona com português e inglês, offline. Inclui uma interface gráfica local no navegador.
 
-> **Importante:** a ferramenta estima *sinais de estilo* (jargão, repetição, uniformidade). Ela não identifica autoria e nenhum detector de IA é confiável. Use para revisar seus próprios textos e respeite as regras da sua instituição.
+> **Importante:** a ferramenta estima *sinais de estilo* (jargão, fórmulas de contraste, listas em tríade, negações em série, repetição, uniformidade). Ela não identifica autoria e nenhum detector de IA é confiável. Use para revisar seus próprios textos e respeite as regras da sua instituição.
 
 ## Download
 

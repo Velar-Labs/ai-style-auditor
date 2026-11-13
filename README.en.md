@@ -4,7 +4,7 @@
 
 A dependency-free Node.js CLI that audits stylistic markers commonly found in AI-generated text and rewrites the text with a more natural tone. Works with Portuguese and English, fully offline. Includes a local graphical interface in the browser.
 
-> **Important:** this tool estimates *style signals* (jargon, repetition, uniformity). It does not identify authorship, and no AI detector is reliable. Use it to revise your own writing and follow your institution's rules.
+> **Important:** this tool estimates *style signals* (jargon, contrast formulas, triads, negation strings, repetition, uniformity). It does not identify authorship, and no AI detector is reliable. Use it to revise your own writing and follow your institution's rules.
 
 ## Download
 
