@@ -2,7 +2,7 @@
 
 [Português](README.md) · [English](README.en.md)
 
-CLI em Node.js, sem dependências, para auditar marcas de estilo típicas de textos gerados por IA e reescrever o texto com um tom mais natural. Funciona com português e inglês, offline.
+CLI em Node.js, sem dependências, para auditar marcas de estilo típicas de textos gerados por IA e reescrever o texto com um tom mais natural. Funciona com português e inglês, offline. Inclui uma interface gráfica local no navegador.
 
 > **Importante:** a ferramenta estima *sinais de estilo* (jargão, repetição, uniformidade). Ela não identifica autoria e nenhum detector de IA é confiável. Use para revisar seus próprios textos e respeite as regras da sua instituição.
 
@@ -50,6 +50,16 @@ Mudanças:
   2× conectivos simplificados
 ```
 
+## Interface gráfica
+
+```bash
+node index.js gui
+```
+
+Abre `http://127.0.0.1:4319` no navegador. Cole o texto, escolha o idioma e use **Analisar** ou **Reescrever**; o resultado pode ser copiado, baixado como `.txt` ou reaproveitado como entrada. A página roda apenas em localhost, não envia o texto para a internet e não tem acesso aos seus arquivos.
+
+Se o projeto for empacotado como executável do Windows, abrir o `.exe` sem argumentos já inicia a interface.
+
 ## Comandos e opções
 
 | Comando / opção | Descrição |
@@ -57,6 +67,7 @@ Mudanças:
 | `detect <arquivo>` | Analisa e mostra os sinais de estilo |
 | `rewrite <arquivo>` | Reescreve e mostra antes/depois |
 | `<arquivo>` | Atalho para `rewrite` |
+| `gui` | Abre a interface gráfica no navegador |
 | `-` | Lê da entrada padrão (stdin) |
 | `-o, --out <arquivo>` | Salva o texto reescrito |
 | `--lang pt\|en` | Força o idioma (padrão: detecção automática) |
@@ -83,6 +94,8 @@ Faixas: **0–29** provavelmente humano · **30–49** sinais mistos · **50–6
 
 ```text
 index.js            CLI
+src/gui.js          servidor local da interface
+src/gui.html        página da interface (HTML/CSS/JS)
 src/detect.js       pontuação heurística
 src/rewrite.js      pipeline de reescrita
 src/patterns.js     léxicos e tabelas pt/en

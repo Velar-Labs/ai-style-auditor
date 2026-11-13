@@ -2,7 +2,7 @@
 
 [Português](README.md) · [English](README.en.md)
 
-A dependency-free Node.js CLI that audits stylistic markers commonly found in AI-generated text and rewrites the text with a more natural tone. Works with Portuguese and English, fully offline.
+A dependency-free Node.js CLI that audits stylistic markers commonly found in AI-generated text and rewrites the text with a more natural tone. Works with Portuguese and English, fully offline. Includes a local graphical interface in the browser.
 
 > **Important:** this tool estimates *style signals* (jargon, repetition, uniformity). It does not identify authorship, and no AI detector is reliable. Use it to revise your own writing and follow your institution's rules.
 
@@ -50,6 +50,16 @@ Changes:
   2× filler phrases removed
 ```
 
+## Graphical interface
+
+```bash
+node index.js gui
+```
+
+Opens `http://127.0.0.1:4319` in your browser. Paste the text, pick a language and use **Analyze** or **Rewrite**; the result can be copied, downloaded as `.txt` or reused as input. The page runs on localhost only, sends nothing over the internet and has no access to your files.
+
+If the project is packaged as a Windows executable, launching the `.exe` without arguments starts the interface.
+
 ## Commands and options
 
 | Command / option | Description |
@@ -57,6 +67,7 @@ Changes:
 | `detect <file>` | Analyze and show style signals |
 | `rewrite <file>` | Rewrite and show before/after |
 | `<file>` | Shortcut for `rewrite` |
+| `gui` | Open the graphical interface in the browser |
 | `-` | Read from stdin |
 | `-o, --out <file>` | Save the rewritten text |
 | `--lang pt\|en` | Force the language (default: auto-detect) |
@@ -83,6 +94,8 @@ Bands: **0–29** probably human · **30–49** mixed signals · **50–69** pro
 
 ```text
 index.js            CLI
+src/gui.js          local interface server
+src/gui.html        interface page (HTML/CSS/JS)
 src/detect.js       heuristic scoring
 src/rewrite.js      rewrite pipeline
 src/patterns.js     pt/en lexicons and tables

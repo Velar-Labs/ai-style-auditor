@@ -5,6 +5,11 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { analyze } = require('./src/detect');
 const { rewrite } = require('./src/rewrite');
+const { startGui } = require('./src/gui');
+
+function isExecutable() {
+  return Boolean(process.argv[1] && process.argv[1].toLowerCase().endsWith('.exe'));
+}
 
 const useColor = process.stdout.isTTY && !process.env.NO_COLOR;
 const paint = (code) => (text) => (useColor ? `\x1b[${code}m${text}\x1b[0m` : text);
@@ -53,13 +58,14 @@ function printAnalysis(analysis) {
 }
 
 function printHelp() {
-  const program = process.argv[1] && process.argv[1].toLowerCase().endsWith('.exe') ? 'ai-style-auditor' : 'node index.js';
+  const program = isExecutable() ? 'ai-style-auditor' : 'node index.js';
   console.log(`${bold('Detector e reescritor de texto com marcas de IA')}
 
 ${bold('Uso:')}
   ${program} detect <arquivo|->          Analisa o texto e mostra os sinais
   ${program} rewrite <arquivo|-> [...]   Reescreve e mostra antes/depois
   ${program} <arquivo> [...]             Atalho para rewrite
+  ${program} gui                         Abre a interface gráfica no navegador
 
 ${bold('Opções:')}
   -o, --out <arquivo>   Salva o texto reescrito no arquivo
@@ -92,7 +98,7 @@ function parseArgs(argv) {
     } else if (arg === '--lang') {
       options.lang = argv[i + 1];
       i += 1;
-    } else if ((arg === 'detect' || arg === 'rewrite') && !options.command && !options.file) {
+    } else if ((arg === 'detect' || arg === 'rewrite' || arg === 'gui') && !options.command && !options.file) {
       options.command = arg;
     } else if (!options.file) {
       options.file = arg;
@@ -113,9 +119,25 @@ function writeOutput(file, text) {
   return target;
 }
 
+function startInterface() {
+  startGui()
+    .then(({ url }) => {
+      console.log(`${bold('Interface:')} ${url}`);
+      console.log(dim('Nada sai do seu computador. Feche esta janela ou pressione Ctrl+C para encerrar.'));
+    })
+    .catch((error) => {
+      console.error(red(`Não foi possível abrir a interface: ${error.message}`));
+      process.exitCode = 1;
+    });
+}
+
 function main() {
   const options = parseArgs(process.argv.slice(2));
 
+  if (options.command === 'gui' || (isExecutable() && !options.help && !options.command && !options.file)) {
+    startInterface();
+    return;
+  }
   if (options.help || (!options.command && !options.file)) {
     printHelp();
     return;
