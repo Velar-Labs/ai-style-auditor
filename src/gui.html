@@ -142,6 +142,26 @@
   .status.error { color: var(--rust); }
   .status.busy { color: var(--amber); }
 
+  .banner {
+    max-width: 1180px;
+    margin: 0 auto 14px;
+    padding: 11px 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    border: 1px solid #e0b9a8;
+    border-radius: 12px;
+    background: #fbeee9;
+    color: #7a2c1c;
+    font-size: 13px;
+  }
+
+  .banner[hidden] { display: none; }
+  .banner span { flex: 1; min-width: 220px; }
+  .banner .btn { border-color: #d9a58f; color: #7a2c1c; background: transparent; }
+  .banner .btn:hover { background: #f6ded3; }
+
   #input {
     display: block;
     width: 100%;
@@ -526,6 +546,11 @@
   <h1 class="tagline">Escreva como gente.</h1>
 </header>
 
+<div class="banner" id="offline-banner" hidden>
+  <span id="offline-text"></span>
+  <button class="btn btn-small" id="retry" type="button">Tentar novamente</button>
+</div>
+
 <main>
   <section class="card editor" aria-labelledby="titulo-entrada">
     <div class="card-head">
@@ -587,6 +612,9 @@
   var status = document.getElementById('status');
   var result = document.getElementById('result');
   var toast = document.getElementById('toast');
+  var banner = document.getElementById('offline-banner');
+  var offlineText = document.getElementById('offline-text');
+  var retry = document.getElementById('retry');
   var toastTimer = null;
 
   var COLORS = {
@@ -645,6 +673,11 @@
     status.className = state ? 'status ' + state : 'status';
   }
 
+  function showOffline(message) {
+    offlineText.textContent = message;
+    banner.hidden = false;
+  }
+
   function request(path, done) {
     var text = input.value.trim();
     if (!text) {
@@ -668,12 +701,18 @@
         });
       })
       .then(function (data) {
+        banner.hidden = true;
         done(data);
         setStatus('');
       })
       .catch(function (error) {
         setStatus('erro', 'error');
-        showToast(error.message || 'Falha na requisição.');
+        var offline = error && error.name === 'TypeError';
+        var message = offline
+          ? 'Servidor local não encontrado. Abra o ai-style-auditor.exe de novo e mantenha a janela aberta.'
+          : (error.message || 'Falha na requisição.');
+        if (offline) showOffline(message);
+        showToast(message);
       })
       .then(function () {
         setBusy(false);
@@ -942,6 +981,18 @@
       renderRewrite(data);
     });
   });
+
+  retry.addEventListener('click', function () {
+    window.location.reload();
+  });
+
+  if (window.location.protocol === 'file:') {
+    showOffline('Esta página foi aberta como arquivo. Abra o ai-style-auditor.exe (ou rode "node index.js gui") e use http://127.0.0.1:4319.');
+  } else {
+    fetch('/api/health', { cache: 'no-store' }).catch(function () {
+      showOffline('Servidor local não encontrado. Abra o ai-style-auditor.exe de novo e mantenha a janela aberta.');
+    });
+  }
 
   updateCount();
 })();

@@ -103,6 +103,11 @@ async function handle(req, res) {
     return;
   }
 
+  if (req.method === 'GET' && pathname === '/api/health') {
+    sendJson(res, 200, { ok: true });
+    return;
+  }
+
   if (pathname === '/api/analyze') {
     if (req.method !== 'POST') {
       sendJson(res, 405, { error: 'Use POST.' }, { Allow: 'POST' });

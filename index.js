@@ -120,6 +120,7 @@ function writeOutput(file, text) {
 }
 
 function startInterface() {
+  process.title = 'ai-style-auditor — mantenha esta janela aberta';
   startGui()
     .then(({ url }) => {
       console.log(`${bold('Interface:')} ${url}`);

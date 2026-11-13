@@ -30,6 +30,14 @@ test('serve a interface com o formulário', async () => {
   assert.match(response.headers.get('content-type'), /text\/html/);
   assert.match(html, /id="input"/);
   assert.match(html, /id="btn-rewrite"/);
+  assert.match(html, /id="offline-banner"/);
+});
+
+test('responde ao health check', async () => {
+  const response = await fetch(`${base}/api/health`);
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { ok: true });
 });
 
 test('analisa texto pela api', async () => {
